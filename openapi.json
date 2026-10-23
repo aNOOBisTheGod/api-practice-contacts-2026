@@ -1,0 +1,228 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Каталог компьютерных игр",
+    "version": "1.0.0",
+    "description": "Учебный API на Flask и SQLite. Данные сохраняются после перезапуска.",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Games",
+      "description": "Просмотр и изменение каталога игр"
+    }
+  ],
+  "paths": {
+    "/api/games": {
+      "get": {
+        "tags": [
+          "Games"
+        ],
+        "operationId": "listGames",
+        "summary": "Список игр",
+        "responses": {
+          "200": {
+            "description": "Список игр",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Game"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректный запрос"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Games"
+        ],
+        "operationId": "createGame",
+        "summary": "Добавить игру",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GameInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Игра создана",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Game"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Ошибка валидации"
+          }
+        }
+      }
+    },
+    "/api/games/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      ],
+      "get": {
+        "tags": [
+          "Games"
+        ],
+        "operationId": "getGame",
+        "summary": "Найти игру",
+        "responses": {
+          "200": {
+            "description": "Игра",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Game"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Не найдена"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Games"
+        ],
+        "operationId": "updateGame",
+        "summary": "Изменить игру",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GameInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Игра изменена",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Game"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Не найдена"
+          },
+          "400": {
+            "description": "Ошибка валидации"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Games"
+        ],
+        "operationId": "deleteGame",
+        "summary": "Удалить игру",
+        "responses": {
+          "204": {
+            "description": "Удалена"
+          },
+          "404": {
+            "description": "Не найдена"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Game": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "genre",
+          "price"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "example": "Portal 2"
+          },
+          "genre": {
+            "type": "string",
+            "example": "Головоломка"
+          },
+          "price": {
+            "type": "number",
+            "minimum": 0,
+            "example": 399
+          }
+        }
+      },
+      "GameInput": {
+        "type": "object",
+        "required": [
+          "title",
+          "genre",
+          "price"
+        ],
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "example": "Portal 2"
+          },
+          "genre": {
+            "type": "string",
+            "example": "Головоломка"
+          },
+          "price": {
+            "type": "number",
+            "minimum": 0,
+            "example": 399
+          }
+        }
+      }
+    }
+  },
+  "security": []
+}

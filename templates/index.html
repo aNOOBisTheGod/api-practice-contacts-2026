@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>Контакты</title>
+    <style>
+        body { font: 16px sans-serif; max-width: 800px; margin: 40px auto; padding: 16px; }
+        input, button { font: inherit; padding: 8px; margin: 4px; }
+        td, th { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        .inline { display: inline; }
+    </style>
+</head>
+<body>
+    <h1>Контакты</h1>
+    <form method="post">
+        <input type="hidden" name="id" value="{{ editing.id if editing else '' }}">
+        <label>Имя <input name="name" required value="{{ editing.name if editing else '' }}"></label>
+        <label>Телефон <input name="phone" required value="{{ editing.phone if editing else '' }}"></label>
+        <button>Сохранить</button>
+        <a href="/">Очистить</a>
+    </form>
+    <table>
+        <tr><th>Имя</th><th>Телефон</th><th>Действия</th></tr>
+        {% for contact in contacts %}
+        <tr>
+            <td>{{ contact.name }}</td>
+            <td>{{ contact.phone }}</td>
+            <td>
+                <a href="/?edit={{ contact.id }}">Изменить</a>
+                <form class="inline" method="post" action="/contacts/{{ contact.id }}/delete">
+                    <button>Удалить</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <p><a href="/api/books">API книг</a> · <a href="/api/games">API игр</a> · <a href="/docs">Документация</a></p>
+</body>
+</html>
