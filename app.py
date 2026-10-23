@@ -1,7 +1,9 @@
 import sqlite3
 from pathlib import Path
 
-from flask import Flask, abort, g, jsonify, redirect, render_template, request, send_file
+from flask import Flask, abort, g, jsonify, redirect, render_template, request
+
+from openapi import field_schema, make_openapi
 
 app = Flask(__name__)
 app.config['DATABASE'] = Path(__file__).with_name('data.sqlite3')
@@ -60,12 +62,13 @@ def read_values(resource, data):
     values = []
     for field in FIELDS[resource]:
         value = data.get(field, '')
+        schema = field_schema(field)
         try:
-            if field.endswith('_id'):
+            if schema['type'] == 'integer':
                 value = int(value)
-            elif field == 'price':
+            elif schema['type'] == 'number':
                 value = float(value)
-                if not 0 <= value < float('inf'):
+                if not schema['minimum'] <= value < float('inf'):
                     raise ValueError()
             else:
                 if not isinstance(value, str) or not value.strip():
@@ -153,7 +156,7 @@ def swagger():
 
 @app.get('/openapi.json')
 def specification():
-    return send_file(Path(__file__).with_name('openapi.json'))
+    return jsonify(make_openapi(FIELDS))
 
 
 @app.errorhandler(sqlite3.IntegrityError)
