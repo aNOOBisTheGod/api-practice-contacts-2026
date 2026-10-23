@@ -146,6 +146,11 @@ def docs():
     return render_template('docs.html')
 
 
+@app.get('/swagger')
+def swagger():
+    return render_template('swagger.html')
+
+
 @app.get('/openapi.json')
 def specification():
     return send_file(Path(__file__).with_name('openapi.json'))

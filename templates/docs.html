@@ -1,18 +1,14 @@
 <!doctype html>
 <html lang="ru">
+
 <head>
     <meta charset="utf-8">
     <title>API игр</title>
 </head>
+
 <body>
-    <h1>API каталога игр</h1>
-    <p>GET /api/games — список. POST /api/games — добавить игру.</p>
-    <p>GET, PUT, DELETE /api/games/1 — прочитать, изменить, удалить игру.</p>
-    <p>Поля: title — название, genre — жанр, price — цена от 0.</p>
-    <p>Ответы: 200 — успех, 201 — создано, 204 — удалено, 400 — неверные данные, 404 — не найдено.</p>
-    <p><a href="/openapi.json">OpenAPI</a> · <a href="/api/games">Ответ сервера</a> · <a href="/">Контакты</a></p>
-    <p>Для отображения ReDoc ниже нужен интернет.</p>
     <redoc spec-url="/openapi.json"></redoc>
     <script src="https://cdn.redocly.com/redoc/v2.5.4/bundles/redoc.standalone.js"></script>
 </body>
+
 </html>
