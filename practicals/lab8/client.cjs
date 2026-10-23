@@ -1,0 +1,11 @@
+const {grpc,TaskService}=require('./shared.cjs');
+const client=new TaskService('127.0.0.1:50058',grpc.credentials.createInsecure());
+const rpc=(method,data)=>new Promise((resolve,reject)=>client[method](data,{deadline:new Date(Date.now()+5000)},(e,r)=>e?reject(e):resolve(r)));
+(async()=>{const [cmd,...args]=process.argv.slice(2);let r;
+if(cmd==='create')r=await rpc('CreateTask',{title:args.join(' ')});
+else if(cmd==='list')r=await rpc('ListTasks',{});
+else if(cmd==='get')r=await rpc('GetTask',{id:args[0]});
+else if(cmd==='update')r=await rpc('UpdateTask',{id:args[0],title:args[1],completed:args[2]==='true'});
+else if(cmd==='delete')r=await rpc('DeleteTask',{id:args[0]});
+else throw Error('Команды: create TITLE | list | get ID | update ID TITLE true/false | delete ID');
+console.log(JSON.stringify(r,null,2));})().catch(e=>{console.error('gRPC '+e.code+': '+e.message);process.exitCode=1;}).finally(()=>client.close());

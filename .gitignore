@@ -1,2 +1,11 @@
 node_modules/
 .env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+.DS_Store
+*.log
+practicals/lab4/db.json
+practicals/lab5/public/app.js
