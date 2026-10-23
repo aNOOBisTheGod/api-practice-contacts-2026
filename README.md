@@ -1,0 +1,10 @@
+# Учебное REST CRUD-приложение «Контакты»
+Практическая работа 5: Angular, Express, MongoDB, Node.js.
+
+Демонстрация работает в Docker на бесплатном Render. MongoDB доступна только внутри контейнера; внешне открыт HTTP интерфейс приложения. Данные учебные, без авторизации. Не вводите личные данные. После перезапуска бесплатного контейнера база сбрасывается.
+
+Локально: npm ci, запустить MongoDB на порту 27028, npm start.
+Docker: docker build -t api-contacts . && docker run --rm -p 10000:10000 api-contacts
+API: GET/POST /api/contacts; GET/PUT/DELETE /api/contacts/:id; GET /health.
+
+Исходник Angular: client.js; public/app.js — собранный клиент.
